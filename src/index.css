@@ -7,6 +7,18 @@
   font-family: "IBM Plex Mono", monospace;
   font-style: normal;
 }
+body{
+  background-image: url("/src/assets/Background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h1,h2,h3{
+  color: #F17105;
+}
+p{
+  color: #8CBCB9;
+}
 
 header {
   display: flex;
@@ -25,7 +37,7 @@ nav button {
   width: 5rem;
   border-radius: 0.5rem;
   border: none;
-  background-color:lime;
+  background-color:#F2C14E;
 }
 
 section{
@@ -51,13 +63,40 @@ main {
 }
 
 main .main-card{
-  display: flex;
-  align-items: center;
   justify-content: center;
   width: 55rem;
   border-radius: 0.5rem;
-  height: 100rem;
-  background-color: #BEE6CE;
+  height: 50rem;
+  background-color: #F2C14E;
   padding: 1rem;
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+
+}
+
+.cards{
+  margin: 2rem;
+  opacity: 1;
+}
+
+.card{
+  margin-bottom: 1.5rem;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+
+
+}
+
+.card h3{
+  padding-bottom: 0.1rem;
+}
+.card p{
+  padding-bottom: 0.5rem;
+}
+.card button{
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  border: none;
 }
