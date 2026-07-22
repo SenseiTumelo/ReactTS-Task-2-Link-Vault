@@ -8,7 +8,7 @@
   font-style: normal;
 }
 body{
-  background-image: url("/src/assets/Background.png");
+  
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -30,9 +30,10 @@ header {
 header nav{
   display: flex;
   justify-content: space-between;
-  width: 55rem;
+  width: 50rem;
   margin-bottom: 1.5rem;
   margin-top: 1.5rem;
+  
 }
 
 nav button {
@@ -40,6 +41,7 @@ nav button {
   border-radius: 0.5rem;
   border: none;
   background-color:#F2C14E;
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
 }
 
 section{
@@ -52,9 +54,11 @@ section{
 section input{
   display: flex;
   justify-content: space-evenly;
-  width: 55rem;
+  width: 50rem;
   padding: 1rem;
   border-radius: 0.5rem;
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+  border: 1px solid #0000001a;
 }
 
 main {
@@ -65,11 +69,10 @@ main {
 }
 
 main .main-card{
-  justify-content: center;
+  
   width: 55rem;
   border-radius: 0.5rem;
   height: 45rem;
-  background-color: #F2C14E;
   padding: 1rem;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
@@ -77,7 +80,7 @@ main .main-card{
 }
 
 .cards{
-  margin: 2rem;
+  margin: 1.5rem;
   opacity: 1;
 }
 
@@ -85,10 +88,12 @@ main .main-card{
   margin-bottom: 1.5rem;
   width: 100%;
   background-color: #fff;
-  border-radius: 0.5rem;
+  border-radius: 0.7rem;
   padding: 1rem;
-
-
+  border: 1px solid #0000001a;
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
 }
 
 .card h3{
@@ -105,6 +110,9 @@ main .main-card{
 
 .delete{
   width: 1.5rem;
+  color: #0000001a;
+  padding: 0.1rem;
+  margin-right: 1rem;
 }
 
 .delete:hover{
@@ -114,6 +122,8 @@ main .main-card{
 
 .edit{
   width: 1.5rem;
+  color: #0000001a;
+  padding: 0.1rem;
 }
 
 .edit:hover{
@@ -130,7 +140,7 @@ main .main-card{
    display: flex;
    justify-content: center;
    align-items: center;
-   background-color: #048CBCB9;
+   background-color: #F2EFE905;
    z-index: 1;
 }
 
@@ -149,9 +159,9 @@ main .main-card{
 
 .form-card{
   width: 55rem;
-  height:50rem;
+  height:25rem;
   background-color: #F2EFE9;
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
   padding: 1.5rem;
 }
 
@@ -162,12 +172,18 @@ main .main-card{
   padding: 1rem;
   border-radius: 0.5rem;
   margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #0000001a;
 }
 
 .form-card button{
-  width: 5rem;
-  height: 2rem;
+  width: 10rem;
+  height: 3rem;
   border-radius: 0.5rem;
   border: none;
   background-color:#F2C14E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  place-self: end;
 }

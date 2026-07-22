@@ -12,7 +12,7 @@ function App() {
     <Header/>
     <Searchbox/>
     <DetailsCard/>
-    {/*<Form/>*/}
+   {/* */} <Form/>
     </>
   )
 }
