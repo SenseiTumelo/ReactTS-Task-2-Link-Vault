@@ -1,9 +1,9 @@
 import type React from "react"
 
 type textProps = {
-    variant?: string,
-    children: React.ReactNode,
-    style?: React.CSSProperties
+    variant?: string;
+    children: React.ReactNode;
+    style?: React.CSSProperties;
 }
 
 export const Text: React.FC<textProps> = ({variant, children, style}) => {

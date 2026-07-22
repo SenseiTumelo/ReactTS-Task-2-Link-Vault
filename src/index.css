@@ -31,6 +31,8 @@ header nav{
   display: flex;
   justify-content: space-between;
   width: 55rem;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 nav button {
@@ -66,7 +68,7 @@ main .main-card{
   justify-content: center;
   width: 55rem;
   border-radius: 0.5rem;
-  height: 50rem;
+  height: 45rem;
   background-color: #F2C14E;
   padding: 1rem;
   margin-top: 1.5rem;
@@ -151,4 +153,21 @@ main .main-card{
   background-color: #F2EFE9;
   border-radius: 0.5rem;
   padding: 1.5rem;
+}
+
+.form-card input{
+  display: flex;
+  justify-content: space-evenly;
+  width: 52rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-card button{
+  width: 5rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color:#F2C14E;
 }
