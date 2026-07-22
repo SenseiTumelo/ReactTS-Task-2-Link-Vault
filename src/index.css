@@ -100,3 +100,21 @@ main .main-card{
   border-radius: 0.5rem;
   border: none;
 }
+
+.delete{
+  width: 1.5rem;
+}
+
+.delete:hover{
+  color: #D11149;
+  cursor: pointer;
+}
+
+.edit{
+  width: 1.5rem;
+}
+
+.edit:hover{
+  color: #E6C229;
+  cursor: pointer;
+}
