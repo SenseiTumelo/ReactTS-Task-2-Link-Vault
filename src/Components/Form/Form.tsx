@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { Overlay } from "../Overlay/Overlay"
 import { Text } from "../Text/Text"
 
 export const Form = () => {
@@ -18,19 +17,20 @@ let handleClick = ()=>{
     console.log(title, link, tag)
 }
   return (
-    <Overlay>
+    <>
+
         <div className="form-card">
         <Text variant="h1">Add Bookmark</Text>
         <form action="">
             <input type="text" placeholder="Description/Title" onChange={(e)=> {setTitle(e.target.value)}}/>
             
             <input type="text" placeholder="Paste or Type Link" onChange={(e)=> {setLink(e.target.value)}}/>
-            
+    
             <input type="text" placeholder="Tags" onChange={(e)=> {setTag(e.target.value)}}/>
             <button onClick={handleClick} >Submit</button>
 
         </form>
         </div>
-    </Overlay>
+    </>
   )
 }
