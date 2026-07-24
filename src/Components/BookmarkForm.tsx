@@ -20,7 +20,7 @@ export const BookmarkForm = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // submitBookmark(inputValues);
+    submitBookmark(inputValues);
     console.log("Bookmark submitted:", inputValues);
     resetForm();
   };
@@ -67,3 +67,7 @@ export const BookmarkForm = () => {
     </div>
   );
 };
+function submitBookmark(inputValues: BookmarkFormValues) {
+    throw new Error("Function not implemented.");
+}
+

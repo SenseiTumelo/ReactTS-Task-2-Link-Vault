@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { BookmarkItem } from "./BookmarkItem"
 import { Text } from "./Text/Text"
+import { useNavigate } from "react-router-dom";
 
 
 const getBookmarkList = () => {
@@ -19,7 +20,7 @@ export const BookmarkList = () => {
         setBookmarks(getBookmarkList());
     }, [bookmarks]);
     
-    
+   const navigate = useNavigate(); 
     
     return (
      <main>
@@ -28,7 +29,7 @@ export const BookmarkList = () => {
             <Text variant="h1">Bookmark List</Text>
             {
                 bookmarks.length > 0 ? (
-                                <table className="table">
+                <table className="table">
                 <thead>
                     <tr>
                         <th>Title</th>
@@ -44,7 +45,12 @@ export const BookmarkList = () => {
 
             </table>
                 ) : (
-                    <p> No bookmarks available. </p>
+                    <>
+                        <p> No bookmarks available. </p>
+                        <button onClick={()=>navigate("/create-bookmark")}>Add Bookmark</button>
+                    </>
+                    
+                    
                 )
             }
 
