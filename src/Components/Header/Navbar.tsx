@@ -7,9 +7,10 @@ export const Navbar = () => {
   return (
     <header>
         <nav>
-            <Text variant="h1">Bookmark</Text>
+            <Text variant="h1">Link Vault.</Text>
             <button onClick={()=>navigate("/create-bookmark")} >+Add</button>
         </nav>
+   
     </header>
   )
 }

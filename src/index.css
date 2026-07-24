@@ -37,7 +37,7 @@ header nav{
 
 nav button {
   width: 5rem;
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
   border: none;
   background-color:#000;
   color: #fff;
@@ -199,10 +199,10 @@ main .main-card{
   border: 1px solid #0000001a;
 }
 
-.form-card .primary-btn{
+.primary-btn{
   width: 10rem;
   height: 3rem;
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
   border: none;
   background-color:#000;
   color: #fff;
@@ -221,7 +221,7 @@ main .main-card{
 .form-card .secondary-btn{
   width: 10rem;
   height: 3rem;
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
   border: 1px solid #0000001a;
   background-color:#fff;
   color: #000;

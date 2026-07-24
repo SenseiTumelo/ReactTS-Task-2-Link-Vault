@@ -43,6 +43,13 @@ export const BookmarkForm = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const { title, url, description, tag } = inputValues;
+    if (!title.trim() || !url.trim() || !description.trim() || !tag.trim()) {
+      alert("Please fill in all fields before saving.");
+      return;
+    }
+
     saveBookmark(inputValues);
     resetForm();
     navigate("/");
@@ -58,6 +65,7 @@ export const BookmarkForm = () => {
           value={inputValues.title}
           onChange={handleInputChange}
           placeholder="Title"
+          required
         />
 
         <input
@@ -66,6 +74,7 @@ export const BookmarkForm = () => {
           value={inputValues.url}
           onChange={handleInputChange}
           placeholder="URL"
+          required
         />
 
         <input
@@ -74,6 +83,7 @@ export const BookmarkForm = () => {
           value={inputValues.description}
           onChange={handleInputChange}
           placeholder="Description"
+          required
         />
 
         <input
@@ -82,9 +92,16 @@ export const BookmarkForm = () => {
           value={inputValues.tag}
           onChange={handleInputChange}
           placeholder="Tag"
+          required
         />
           <div className="buttons">
-            <button onClick={() => navigate("/")} className="secondary-btn">Back</button> 
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="secondary-btn"
+            >
+              Back
+            </button>
             <button type="submit" className="primary-btn">
               Save
             </button>

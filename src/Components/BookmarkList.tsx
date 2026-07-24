@@ -1,5 +1,7 @@
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Text } from "./Text/Text";
+import noDataImg from "../assets/Capture.png";
+import { useNavigate } from "react-router-dom";
 
 type BookmarkItem = {
   id: string;
@@ -19,8 +21,10 @@ type BookmarkFormValues = {
 const STORAGE_KEY = "link-vault-bookmarks";
 
 export const BookmarkList = () => {
+  let navigate = useNavigate();
   const [bookmarks, setBookmarks] = useState<BookmarkItem[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<BookmarkFormValues>({
     title: "",
     description: "",
@@ -57,10 +61,23 @@ export const BookmarkList = () => {
     };
   }, []);
 
-  const handleDelete = (id: string) => {
-    const updatedBookmarks = bookmarks.filter((bookmark) => bookmark.id !== id);
+  const handleDeleteRequest = (id: string) => {
+    setConfirmDeleteId(id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (!confirmDeleteId) return;
+
+    const updatedBookmarks = bookmarks.filter(
+      (bookmark) => bookmark.id !== confirmDeleteId
+    );
     setBookmarks(updatedBookmarks);
     saveBookmarks(updatedBookmarks);
+    setConfirmDeleteId(null);
+  };
+
+  const handleCancelDelete = () => {
+    setConfirmDeleteId(null);
   };
 
   const handleEditStart = (bookmark: BookmarkItem) => {
@@ -91,13 +108,12 @@ export const BookmarkList = () => {
     }));
   };
 
-  const handleEditSave = () => {
+  const handleEditSave = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!editingId) return;
 
     const updatedBookmarks = bookmarks.map((bookmark) =>
-      bookmark.id === editingId
-        ? { ...bookmark, ...editValues }
-        : bookmark
+      bookmark.id === editingId ? { ...bookmark, ...editValues } : bookmark
     );
 
     setBookmarks(updatedBookmarks);
@@ -110,6 +126,10 @@ export const BookmarkList = () => {
       tag: "",
     });
   };
+
+  const bookmarkToDelete = bookmarks.find(
+    (bookmark) => bookmark.id === confirmDeleteId
+  );
 
   return (
     <div
@@ -130,15 +150,25 @@ export const BookmarkList = () => {
           padding: "24px",
         }}
       >
-        <Text variant="h2">Bookmarks List</Text>
+        <Text
+          variant="h2"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            fontSize: "25px",
+            fontWeight: 600,
+            color: "#1d1d1f",
+            marginBottom: "24px",
+          }}
+        >
+          Bookmarks List
+        </Text>
 
         <table
           style={{
             width: "100%",
             borderCollapse: "collapse",
             marginTop: "1rem",
-            fontFamily:
-              '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
             fontSize: "14px",
             color: "#1d1d1f",
           }}
@@ -150,7 +180,6 @@ export const BookmarkList = () => {
                   borderBottom: "1px solid #e5e5e5",
                   padding: "12px 10px",
                   textAlign: "left",
-                  background: "linear-gradient(180deg, #fff, #eeeeee)",
                   fontWeight: 600,
                   color: "#4a4a4a",
                 }}
@@ -162,7 +191,6 @@ export const BookmarkList = () => {
                   borderBottom: "1px solid #e5e5e5",
                   padding: "12px 10px",
                   textAlign: "left",
-                  background: "linear-gradient(180deg, #fff, #fffafa)",
                   fontWeight: 600,
                   color: "#4a4a4a",
                 }}
@@ -174,7 +202,6 @@ export const BookmarkList = () => {
                   borderBottom: "1px solid #e5e5e5",
                   padding: "12px 10px",
                   textAlign: "left",
-                  background: "linear-gradient(180deg, #f7f7f7, #eeeeee)",
                   fontWeight: 600,
                   color: "#4a4a4a",
                 }}
@@ -186,7 +213,6 @@ export const BookmarkList = () => {
                   borderBottom: "1px solid #e5e5e5",
                   padding: "12px 10px",
                   textAlign: "left",
-                  background: "linear-gradient(180deg, #f7f7f7, #eeeeee)",
                   fontWeight: 600,
                   color: "#4a4a4a",
                 }}
@@ -198,7 +224,6 @@ export const BookmarkList = () => {
                   borderBottom: "1px solid #e5e5e5",
                   padding: "12px 10px",
                   textAlign: "left",
-                  background: "linear-gradient(180deg, #f7f7f7, #eeeeee)",
                   fontWeight: 600,
                   color: "#4a4a4a",
                 }}
@@ -219,190 +244,348 @@ export const BookmarkList = () => {
                     color: "#6e6e73",
                   }}
                 >
-                  No bookmarks yet.
+                  <img
+                    src={noDataImg}
+                    style={{ width: "20rem", height: "auto", marginTop: "8px" }}
+                  />
+                  <Text
+                    variant="p"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "16px",
+                    }}
+                  >
+                    <button
+                      className="primary-btn"
+                      onClick={() => navigate("/create-bookmark")}
+                    >
+                      Add Bookmark
+                    </button>
+                  </Text>
                 </td>
               </tr>
             ) : (
-              bookmarks.map((bookmark) => {
-                const isEditing = editingId === bookmark.id;
+              bookmarks.map((bookmark) => (
+                <tr key={bookmark.id}>
+                  <td
+                    style={{
+                      borderBottom: "1px solid #f0f0f0",
+                      padding: "12px 10px",
+                    }}
+                  >
+                    {bookmark.title}
+                  </td>
 
-                return (
-                  <tr key={bookmark.id}>
-                    <td
-                      style={{
-                        borderBottom: "1px solid #f0f0f0",
-                        padding: "12px 10px",
-                      }}
-                    >
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          name="title"
-                          value={editValues.title}
-                          onChange={handleEditChange}
-                          style={{
-                            width: "100%",
-                            border: "1px solid #d1d1d6",
-                            borderRadius: "8px",
-                            padding: "8px 10px",
-                          }}
-                        />
-                      ) : (
-                        bookmark.title
-                      )}
-                    </td>
+                  <td
+                    style={{
+                      borderBottom: "1px solid #f0f0f0",
+                      padding: "12px 10px",
+                    }}
+                  >
+                    {bookmark.description}
+                  </td>
 
-                    <td
-                      style={{
-                        borderBottom: "1px solid #f0f0f0",
-                        padding: "12px 10px",
-                      }}
+                  <td
+                    style={{
+                      borderBottom: "1px solid #f0f0f0",
+                      padding: "12px 10px",
+                    }}
+                  >
+                    <a
+                      href={bookmark.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ color: "#0071e3", textDecoration: "none" }}
                     >
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          name="description"
-                          value={editValues.description}
-                          onChange={handleEditChange}
-                          style={{
-                            width: "100%",
-                            border: "1px solid #d1d1d6",
-                            borderRadius: "8px",
-                            padding: "8px 10px",
-                          }}
-                        />
-                      ) : (
-                        bookmark.description
-                      )}
-                    </td>
+                      {bookmark.url}
+                    </a>
+                  </td>
 
-                    <td
-                      style={{
-                        borderBottom: "1px solid #f0f0f0",
-                        padding: "12px 10px",
-                      }}
-                    >
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          name="url"
-                          value={editValues.url}
-                          onChange={handleEditChange}
-                          style={{
-                            width: "100%",
-                            border: "1px solid #d1d1d6",
-                            borderRadius: "8px",
-                            padding: "8px 10px",
-                          }}
-                        />
-                      ) : (
-                        <a
-                          href={bookmark.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          style={{ color: "#0071e3", textDecoration: "none" }}
-                        >
-                          {bookmark.url}
-                        </a>
-                      )}
-                    </td>
+                  <td
+                    style={{
+                      borderBottom: "1px solid #f0f0f0",
+                      padding: "12px 10px",
+                    }}
+                  >
+                    {bookmark.tag}
+                  </td>
 
-                    <td
-                      style={{
-                        borderBottom: "1px solid #f0f0f0",
-                        padding: "12px 10px",
-                      }}
-                    >
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          name="tag"
-                          value={editValues.tag}
-                          onChange={handleEditChange}
-                          style={{
-                            width: "100%",
-                            border: "1px solid #d1d1d6",
-                            borderRadius: "8px",
-                            padding: "8px 10px",
-                          }}
-                        />
-                      ) : (
-                        bookmark.tag
-                      )}
-                    </td>
-
-                    <td
-                      style={{
-                        borderBottom: "1px solid #f0f0f0",
-                        padding: "12px 10px",
-                      }}
-                    >
-                      {isEditing ? (
-                        <div style={{ display: "flex", gap: "8px" }}>
-                          <button
-                            onClick={handleEditSave}
-                            style={{
-                              border: "none",
-                              borderRadius: "999px",
-                              padding: "8px 12px",
-                              background: "#000",
-                              color: "#fff",
-                              cursor: "pointer",
-                            }}
-                          >
-                            Save
-                          </button>
-                          <button
-                            onClick={handleEditCancel}
-                            style={{
-                              border: "1px solid #d1d1d6",
-                              borderRadius: "999px",
-                              padding: "8px 12px",
-                              background: "#fff",
-                              color: "#1d1d1f",
-                              cursor: "pointer",
-                            }}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      ) : (
-                        <div style={{ display: "flex", gap: "8px" }}>
-                          <button
-                            onClick={() => handleEditStart(bookmark)}
-                            style={{
-                              border: "1px solid #d1d1d6",
-                              borderRadius: "999px",
-                              padding: "8px 12px",
-                              background: "#fff",
-                              color: "#1d1d1f",
-                              cursor: "pointer",
-                            }}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDelete(bookmark.id)}
-                            style={{
-                              border: "none",
-                              borderRadius: "999px",
-                              padding: "8px 12px",
-                              background: "#000",
-                              color: "#fff",
-                              cursor: "pointer",
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })
+                  <td
+                    style={{
+                      borderBottom: "1px solid #f0f0f0",
+                      padding: "12px 10px",
+                    }}
+                  >
+                    <div style={{ display: "flex", gap: "8px" }}>
+                      <button
+                        onClick={() => handleEditStart(bookmark)}
+                        style={{
+                          border: "1px solid #d1d1d6",
+                          borderRadius: "999px",
+                          padding: "8px 12px",
+                          background: "#fff",
+                          color: "#1d1d1f",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteRequest(bookmark.id)}
+                        style={{
+                          border: "none",
+                          borderRadius: "999px",
+                          padding: "8px 12px",
+                          background: "#000",
+                          color: "#fff",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
             )}
           </tbody>
         </table>
+
+        {confirmDeleteId && (
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "rgba(0,0,0,0.35)",
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                width: "min(90%, 420px)",
+                background: "#fff",
+                borderRadius: "16px",
+                padding: "24px",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+                textAlign: "center",
+              }}
+            >
+              <Text variant="h3" style={{ marginBottom: "16px" }}>
+                Confirm delete
+              </Text>
+              <Text
+                variant="p"
+                style={{
+                  color: "#4a4a4a",
+                  marginBottom: "24px",
+                }}
+              >
+                Delete "{bookmarkToDelete?.title}" from your bookmarks?
+              </Text>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "12px",
+                  justifyContent: "center",
+                }}
+              >
+                <button
+                  onClick={handleConfirmDelete}
+                  style={{
+                    border: "none",
+                    borderRadius: "999px",
+                    padding: "10px 18px",
+                    background: "#000",
+                    color: "#fff",
+                    cursor: "pointer",
+                  }}
+                >
+                  Yes, delete
+                </button>
+                <button
+                  onClick={handleCancelDelete}
+                  style={{
+                    border: "1px solid #d1d1d6",
+                    borderRadius: "999px",
+                    padding: "10px 18px",
+                    background: "#fff",
+                    color: "#1d1d1f",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {editingId && (
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "rgba(0,0,0,0.35)",
+              zIndex: 10,
+            }}
+          >
+            <form
+              onSubmit={handleEditSave}
+              style={{
+                width: "min(90%, 540px)",
+                background: "#fff",
+                borderRadius: "16px",
+                padding: "24px",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+                display: "grid",
+                gap: "16px",
+              }}
+            >
+              <Text
+                variant="h3"
+                style={{
+                  marginBottom: "4px",
+                  textAlign: "center",
+                }}
+              >
+                Edit bookmark
+              </Text>
+
+              <label
+                style={{
+                  display: "grid",
+                  gap: "8px",
+                  fontSize: "14px",
+                  color: "#1d1d1f",
+                }}
+              >
+                Title
+                <input
+                  type="text"
+                  name="title"
+                  value={editValues.title}
+                  onChange={handleEditChange}
+                  style={{
+                    width: "100%",
+                    border: "1px solid #d1d1d6",
+                    borderRadius: "12px",
+                    padding: "12px 14px",
+                    fontSize: "14px",
+                  }}
+                />
+              </label>
+
+              <label
+                style={{
+                  display: "grid",
+                  gap: "8px",
+                  fontSize: "14px",
+                  color: "#1d1d1f",
+                }}
+              >
+                Description
+                <input
+                  type="text"
+                  name="description"
+                  value={editValues.description}
+                  onChange={handleEditChange}
+                  style={{
+                    width: "100%",
+                    border: "1px solid #d1d1d6",
+                    borderRadius: "12px",
+                    padding: "12px 14px",
+                    fontSize: "14px",
+                  }}
+                />
+              </label>
+
+              <label
+                style={{
+                  display: "grid",
+                  gap: "8px",
+                  fontSize: "14px",
+                  color: "#1d1d1f",
+                }}
+              >
+                URL
+                <input
+                  type="text"
+                  name="url"
+                  value={editValues.url}
+                  onChange={handleEditChange}
+                  style={{
+                    width: "100%",
+                    border: "1px solid #d1d1d6",
+                    borderRadius: "12px",
+                    padding: "12px 14px",
+                    fontSize: "14px",
+                  }}
+                />
+              </label>
+
+              <label
+                style={{
+                  display: "grid",
+                  gap: "8px",
+                  fontSize: "14px",
+                  color: "#1d1d1f",
+                }}
+              >
+                Tag
+                <input
+                  type="text"
+                  name="tag"
+                  value={editValues.tag}
+                  onChange={handleEditChange}
+                  style={{
+                    width: "100%",
+                    border: "1px solid #d1d1d6",
+                    borderRadius: "12px",
+                    padding: "12px 14px",
+                    fontSize: "14px",
+                  }}
+                />
+              </label>
+
+              <div style={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}>
+                <button
+                  type="button"
+                  onClick={handleEditCancel}
+                  style={{
+                    border: "1px solid #d1d1d6",
+                    borderRadius: "999px",
+                    padding: "10px 18px",
+                    background: "#fff",
+                    color: "#1d1d1f",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  style={{
+                    border: "none",
+                    borderRadius: "999px",
+                    padding: "10px 18px",
+                    background: "#000",
+                    color: "#fff",
+                    cursor: "pointer",
+                  }}
+                >
+                  Save changes
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
