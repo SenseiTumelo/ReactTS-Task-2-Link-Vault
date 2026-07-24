@@ -187,3 +187,7 @@ main .main-card{
   justify-content: center;
   place-self: end;
 }
+
+.btn{
+  display: flex;
+}
