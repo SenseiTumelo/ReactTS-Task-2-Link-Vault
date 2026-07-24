@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 *{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: "Inter", sans-serif;
   font-style: normal;
 }
 body{
@@ -14,7 +13,7 @@ body{
 }
 
 h1,h2,h3{
-  color: #F17105;
+  color: #000;
 }
 p{
   color: #8CBCB9;
@@ -40,8 +39,14 @@ nav button {
   width: 5rem;
   border-radius: 0.5rem;
   border: none;
-  background-color:#F2C14E;
+  background-color:#000;
+  color: #fff;
   box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+}
+nav button:hover{
+  background-color: lightgray;
+  color: #000;
+  cursor: pointer;
 }
 
 section{
@@ -59,6 +64,12 @@ section input{
   border-radius: 0.5rem;
   box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
   border: 1px solid #0000001a;
+  background-image: url("https://cdn-icons-png.flaticon.com/512/622/622669.png");
+  background-repeat: no-repeat;
+  background-position: 98% 50%;
+  background-size: 1rem;
+ 
+  
 }
 
 main {
@@ -158,17 +169,29 @@ main .main-card{
 }
 
 .form-card{
-  width: 55rem;
-  height:25rem;
-  background-color: #F2EFE9;
+  width: 33rem;
+  height:28rem;
+  background-color: #Fff;
   border-radius: 1.5rem;
+  border: 1px solid #0000001a;
   padding: 1.5rem;
+  position: absolute;
+  top: 25rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+}
+
+.form-card h1{
+  padding-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 .form-card input{
   display: flex;
   justify-content: space-evenly;
-  width: 52rem;
+  width: 30rem;
   padding: 1rem;
   border-radius: 0.5rem;
   margin-bottom: 1.5rem;
@@ -176,18 +199,47 @@ main .main-card{
   border: 1px solid #0000001a;
 }
 
-.form-card button{
+.form-card .primary-btn{
   width: 10rem;
   height: 3rem;
   border-radius: 0.5rem;
   border: none;
-  background-color:#F2C14E;
+  background-color:#000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  place-self: end;
+}
+.primary-btn:hover{
+  background-color: lightgray;
+  color: #000;
+  cursor: pointer;
+}
+
+
+.form-card .secondary-btn{
+  width: 10rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  border: 1px solid #0000001a;
+  background-color:#fff;
+  color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
   place-self: end;
 }
 
-.btn{
+.secondary-btn:hover{
+  background-color: #b1b1b1;
+  color: #fff;
+  cursor: pointer;
+}
+
+.buttons{
   display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
 }

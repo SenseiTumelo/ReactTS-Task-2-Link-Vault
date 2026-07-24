@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom"
 import { Navbar } from "./Components/Header/Navbar"
 import { BookmarkList } from "./Components/BookmarkList"
 import { BookmarkForm } from "./Components/BookmarkForm"
+import { Searchbox } from "./Components/Searchbox/Searchbox"
 
 
 function App() {
@@ -14,11 +15,14 @@ function App() {
   return (
    /* <>
     <Header/>
-    <Searchbox/>
+   
     <DetailsCard/>
     </>*/
     <>
       <Navbar/>
+      <Searchbox bookmarks={[]} onSearchResults={function (filtered: { id: string; title: string; description: string; tags: string[]; url: string }[]): void {
+        throw new Error("Function not implemented.")
+      } }/>
       <div className="container">
         <Routes>
           <Route path="/" element={<BookmarkList />}/>
