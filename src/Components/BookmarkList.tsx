@@ -393,19 +393,7 @@ export const BookmarkList = () => {
                   justifyContent: "center",
                 }}
               >
-                <button
-                  onClick={handleConfirmDelete}
-                  style={{
-                    border: "none",
-                    borderRadius: "999px",
-                    padding: "10px 18px",
-                    background: "#000",
-                    color: "#fff",
-                    cursor: "pointer",
-                  }}
-                >
-                  Yes, delete
-                </button>
+
                 <button
                   onClick={handleCancelDelete}
                   style={{
@@ -418,6 +406,19 @@ export const BookmarkList = () => {
                   }}
                 >
                   Cancel
+                </button>
+                                <button
+                  onClick={handleConfirmDelete}
+                  style={{
+                    border: "none",
+                    borderRadius: "999px",
+                    padding: "10px 18px",
+                    background: "#000",
+                    color: "#fff",
+                    cursor: "pointer",
+                  }}
+                >
+                  Yes, delete
                 </button>
               </div>
             </div>
