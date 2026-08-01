@@ -3,6 +3,14 @@ import { Text } from "./Text/Text";
 import noDataImg from "../assets/Capture.png";
 import { useNavigate } from "react-router-dom";
 
+type Bookmark = {
+  id: string;
+  title: string;
+  description: string;
+  tags: string[];
+  url: string;
+};
+
 type BookmarkItem = {
   id: string;
   title: string;
@@ -20,8 +28,28 @@ type BookmarkFormValues = {
 
 const STORAGE_KEY = "link-vault-bookmarks";
 
+const normalizeBookmark = (bookmark: Bookmark | BookmarkItem): BookmarkItem => {
+  if ("tag" in bookmark) {
+    return {
+      id: bookmark.id,
+      title: bookmark.title,
+      description: bookmark.description,
+      url: bookmark.url,
+      tag: bookmark.tag,
+    };
+  }
+
+  return {
+    id: bookmark.id,
+    title: bookmark.title,
+    description: bookmark.description,
+    url: bookmark.url,
+    tag: bookmark.tags.join(", "),
+  };
+};
+
 export const BookmarkList = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [bookmarks, setBookmarks] = useState<BookmarkItem[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
@@ -31,6 +59,11 @@ export const BookmarkList = () => {
     url: "",
     tag: "",
   });
+  const [query, setQuery] = useState("");
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.currentTarget.value);
+  };
 
   const saveBookmarks = (items: BookmarkItem[]) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
@@ -41,7 +74,12 @@ export const BookmarkList = () => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        setBookmarks(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        const normalized = Array.isArray(parsed)
+          ? parsed.map((item) => normalizeBookmark(item as Bookmark | BookmarkItem))
+          : [];
+
+        setBookmarks(normalized);
       } catch {
         setBookmarks([]);
       }
@@ -131,14 +169,47 @@ export const BookmarkList = () => {
     (bookmark) => bookmark.id === confirmDeleteId
   );
 
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredBookmarks = normalizedQuery
+    ? bookmarks.filter((bookmark) => {
+        const titleMatch = bookmark.title.toLowerCase().includes(normalizedQuery);
+        const descriptionMatch = bookmark.description.toLowerCase().includes(normalizedQuery);
+        const tagMatch = bookmark.tag.toLowerCase().includes(normalizedQuery);
+
+        return titleMatch || descriptionMatch || tagMatch;
+      })
+    : bookmarks;
+
   return (
     <div
       style={{
         display: "flex",
         justifyContent: "center",
         padding: "24px 16px",
+       
       }}
     >
+      <input
+        id="searchbox"
+        name="searchbox"
+        value={query}
+        onChange={handleChange}
+        placeholder="Search title, description, tags"
+        type="text"
+        style={{
+          display: "flex",
+          WebkitJustifyContent: "space-evenly",
+          width: "50rem",
+          padding: "1rem",
+          borderRadius: "0.5rem",
+          boxShadow: "1px 1px 6px rgba(0,0,0,0.1)",
+          border: "1px solid #0000001a",
+          backgroundImage: 'url("https://cdn-icons-png.flaticon.com/512/622/622669.png")',
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "98% 50%",
+          backgroundSize: "1rem",
+        }}
+      />
       <div
         style={{
           width: "50rem",
@@ -247,6 +318,7 @@ export const BookmarkList = () => {
                   <img
                     src={noDataImg}
                     style={{ width: "20rem", height: "auto", marginTop: "8px" }}
+                    alt="No bookmarks"
                   />
                   <Text
                     variant="p"
@@ -265,8 +337,30 @@ export const BookmarkList = () => {
                   </Text>
                 </td>
               </tr>
+            ) : filteredBookmarks.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={5}
+                  style={{
+                    padding: "20px",
+                    textAlign: "center",
+                    color: "#6e6e73",
+                  }}
+                >
+                  <Text
+                    variant="p"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "16px",
+                    }}
+                  >
+                    No bookmarks match your search.
+                  </Text>
+                </td>
+              </tr>
             ) : (
-              bookmarks.map((bookmark) => (
+              filteredBookmarks.map((bookmark) => (
                 <tr key={bookmark.id}>
                   <td
                     style={{
@@ -393,7 +487,6 @@ export const BookmarkList = () => {
                   justifyContent: "center",
                 }}
               >
-
                 <button
                   onClick={handleCancelDelete}
                   style={{
@@ -407,7 +500,7 @@ export const BookmarkList = () => {
                 >
                   Cancel
                 </button>
-                                <button
+                <button
                   onClick={handleConfirmDelete}
                   style={{
                     border: "none",
