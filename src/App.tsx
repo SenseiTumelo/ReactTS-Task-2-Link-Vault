@@ -6,7 +6,7 @@ import { Route, Routes } from "react-router-dom"
 import { Navbar } from "./Components/Header/Navbar"
 import { BookmarkList } from "./Components/BookmarkList"
 import { BookmarkForm } from "./Components/BookmarkForm"
-import { Searchbox } from "./Components/Searchbox/Searchbox"
+
 
 function App() {
 
@@ -20,8 +20,6 @@ function App() {
     <>
       <Navbar/>
       <div className="container">
-    <Searchbox bookmarks={[]} onSearchResults={()=>{}}/>
-   
         <Routes>
           <Route path="/" element={<BookmarkList />}/>
           <Route path="/create-bookmark" element={<BookmarkForm />}/>

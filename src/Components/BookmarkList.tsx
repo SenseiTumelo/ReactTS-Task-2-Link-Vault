@@ -2,6 +2,7 @@ import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Text } from "./Text/Text";
 import noDataImg from "../assets/Capture.png";
 import { useNavigate } from "react-router-dom";
+import { Searchbox } from "./Searchbox/Searchbox";
 
 type BookmarkItem = {
   id: string;
@@ -132,6 +133,8 @@ export const BookmarkList = () => {
   );
 
   return (
+    <>
+    <Searchbox bookmarks={[]} onSearchResults={()=>{}}/>
     <div
       style={{
         display: "flex",
@@ -589,5 +592,6 @@ export const BookmarkList = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
