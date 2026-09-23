@@ -243,3 +243,24 @@ main .main-card{
   align-items: center;
   justify-content: center;
 }
+/* Bookmark form labels, validation and tag preview. */
+.form-card.bookmark-form-card {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: min(33rem, calc(100% - 2rem));
+  height: auto;
+  margin: 2rem auto;
+}
+.bookmark-field { margin: 1.25rem 0; }
+.bookmark-field label { display: block; font-weight: 600; color: #000; }
+.bookmark-form-card input { width: 100%; margin: 0.5rem 0; }
+.bookmark-form-card input[type="url"] { font-family: monospace; }
+.bookmark-form-card input:focus-visible { outline: 2px solid #166b65; outline-offset: 2px; }
+.bookmark-form-card input[aria-invalid="true"] { border-color: #b42318; }
+.bookmark-form-card .form-hint { font-size: 0.85rem; color: #555; line-height: 1.5; }
+.bookmark-form-card .form-error { font-size: 0.85rem; color: #b42318; margin-top: 0.4rem; line-height: 1.5; }
+.bookmark-tag-preview { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin-top: 0.75rem; }
+.bookmark-tag { padding: 0.3rem 0.75rem; border-radius: 999px; background: #e9f3f2; color: #205c57; font-size: 0.85rem; overflow-wrap: anywhere; max-width: 100%; }
+.bookmark-form-card .buttons { margin-top: 1.5rem; }
