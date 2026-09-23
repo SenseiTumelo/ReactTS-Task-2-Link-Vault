@@ -29,8 +29,9 @@ export const Searchbox = ({ bookmarks, onSearchResults }: SearchboxProps) => {
           const tagsMatch = bookmark.tags.some((tag) =>
             tag.toLowerCase().includes(normalized)
           );
+          const urlMatch = bookmark.url.toLowerCase().includes(normalized);
 
-          return titleMatch || descriptionMatch || tagsMatch;
+          return titleMatch || descriptionMatch || tagsMatch || urlMatch;
         })
       : bookmarks;
 
@@ -44,7 +45,7 @@ export const Searchbox = ({ bookmarks, onSearchResults }: SearchboxProps) => {
         name="searchbox"
         value={query}
         onChange={handleChange}
-        placeholder="Search title, description, tags"
+        placeholder="Search title, description, tags or link"
         type="text"
       />
     </section>
