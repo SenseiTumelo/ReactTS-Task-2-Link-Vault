@@ -76,7 +76,9 @@ export const BookmarkList = () => {
       try {
         const parsed = JSON.parse(saved);
         const normalized = Array.isArray(parsed)
-          ? parsed.map((item) => normalizeBookmark(item as Bookmark | BookmarkItem))
+          ? parsed.map((item) =>
+              normalizeBookmark(item as Bookmark | BookmarkItem),
+            )
           : [];
 
         setBookmarks(normalized);
@@ -107,7 +109,7 @@ export const BookmarkList = () => {
     if (!confirmDeleteId) return;
 
     const updatedBookmarks = bookmarks.filter(
-      (bookmark) => bookmark.id !== confirmDeleteId
+      (bookmark) => bookmark.id !== confirmDeleteId,
     );
     setBookmarks(updatedBookmarks);
     saveBookmarks(updatedBookmarks);
@@ -151,7 +153,7 @@ export const BookmarkList = () => {
     if (!editingId) return;
 
     const updatedBookmarks = bookmarks.map((bookmark) =>
-      bookmark.id === editingId ? { ...bookmark, ...editValues } : bookmark
+      bookmark.id === editingId ? { ...bookmark, ...editValues } : bookmark,
     );
 
     setBookmarks(updatedBookmarks);
@@ -166,14 +168,18 @@ export const BookmarkList = () => {
   };
 
   const bookmarkToDelete = bookmarks.find(
-    (bookmark) => bookmark.id === confirmDeleteId
+    (bookmark) => bookmark.id === confirmDeleteId,
   );
 
   const normalizedQuery = query.trim().toLowerCase();
   const filteredBookmarks = normalizedQuery
     ? bookmarks.filter((bookmark) => {
-        const titleMatch = bookmark.title.toLowerCase().includes(normalizedQuery);
-        const descriptionMatch = bookmark.description.toLowerCase().includes(normalizedQuery);
+        const titleMatch = bookmark.title
+          .toLowerCase()
+          .includes(normalizedQuery);
+        const descriptionMatch = bookmark.description
+          .toLowerCase()
+          .includes(normalizedQuery);
         const tagMatch = bookmark.tag.toLowerCase().includes(normalizedQuery);
 
         return titleMatch || descriptionMatch || tagMatch;
@@ -186,7 +192,6 @@ export const BookmarkList = () => {
         display: "flex",
         justifyContent: "center",
         padding: "24px 16px",
-       
       }}
     >
       <input
@@ -204,7 +209,8 @@ export const BookmarkList = () => {
           borderRadius: "0.5rem",
           boxShadow: "1px 1px 6px rgba(0,0,0,0.1)",
           border: "1px solid #0000001a",
-          backgroundImage: 'url("https://cdn-icons-png.flaticon.com/512/622/622669.png")',
+          backgroundImage:
+            'url("https://cdn-icons-png.flaticon.com/512/622/622669.png")',
           backgroundRepeat: "no-repeat",
           backgroundPosition: "98% 50%",
           backgroundSize: "1rem",
@@ -648,7 +654,13 @@ export const BookmarkList = () => {
                 />
               </label>
 
-              <div style={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "12px",
+                  justifyContent: "flex-end",
+                }}
+              >
                 <button
                   type="button"
                   onClick={handleEditCancel}
