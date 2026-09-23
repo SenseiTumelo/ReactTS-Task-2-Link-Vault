@@ -183,13 +183,15 @@ export const BookmarkList = () => {
           .includes(normalizedQuery);
         const tagMatch = bookmark.tag.toLowerCase().includes(normalizedQuery);
 
-        return titleMatch || descriptionMatch || tagMatch;
+        const urlMatch = bookmark.url.toLowerCase().includes(normalizedQuery);
+
+        return titleMatch || descriptionMatch || tagMatch || urlMatch;
       })
     : bookmarks;
 
   return (
     <>
-    <Searchbox bookmarks={[]} onSearchResults={()=>{}}/>
+    <Searchbox query={query} onChange={handleChange} />
     <div
       style={{
         display: "flex",
@@ -197,28 +199,7 @@ export const BookmarkList = () => {
         padding: "24px 16px",
       }}
     >
-      <input
-        id="searchbox"
-        name="searchbox"
-        value={query}
-        onChange={handleChange}
-        placeholder="Search title, description, tags"
-        type="text"
-        style={{
-          display: "flex",
-          WebkitJustifyContent: "space-evenly",
-          width: "50rem",
-          padding: "1rem",
-          borderRadius: "0.5rem",
-          boxShadow: "1px 1px 6px rgba(0,0,0,0.1)",
-          border: "1px solid #0000001a",
-          backgroundImage:
-            'url("https://cdn-icons-png.flaticon.com/512/622/622669.png")',
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "98% 50%",
-          backgroundSize: "1rem",
-        }}
-      />
+
       <div
         style={{
           width: "50rem",
@@ -359,6 +340,7 @@ export const BookmarkList = () => {
                   <Text
                     variant="p"
                     style={{
+                      color: "#000000",
                       display: "flex",
                       justifyContent: "center",
                       marginTop: "16px",

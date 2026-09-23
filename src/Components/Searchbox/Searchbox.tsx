@@ -1,50 +1,19 @@
-import { useState, type ChangeEvent } from "react";
-
-type Bookmark = {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  url: string;
-};
+import type { ChangeEvent } from "react";
 
 type SearchboxProps = {
-  bookmarks: Bookmark[];
-  onSearchResults: (filtered: Bookmark[]) => void;
+  query: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const Searchbox = ({ bookmarks, onSearchResults }: SearchboxProps) => {
-  const [query, setQuery] = useState("");
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.value;
-    setQuery(value);
-
-    const normalized = value.trim().toLowerCase();
-
-    const filtered = normalized
-      ? bookmarks.filter((bookmark) => {
-          const titleMatch = bookmark.title.toLowerCase().includes(normalized);
-          const descriptionMatch = bookmark.description.toLowerCase().includes(normalized);
-          const tagsMatch = bookmark.tags.some((tag) =>
-            tag.toLowerCase().includes(normalized)
-          );
-          const urlMatch = bookmark.url.toLowerCase().includes(normalized);
-
-          return titleMatch || descriptionMatch || tagsMatch || urlMatch;
-        })
-      : bookmarks;
-
-    onSearchResults(filtered);
-  };
-
+export const Searchbox = ({ query, onChange }: SearchboxProps) => {
   return (
     <section className="searchbox">
       <input
         id="searchbox"
         name="searchbox"
         value={query}
-        onChange={handleChange}
+        onChange={onChange}
+        aria-label="Search bookmarks"
         placeholder="Search title, description, tags or link"
         type="text"
       />
